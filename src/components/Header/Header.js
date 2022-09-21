@@ -10,7 +10,7 @@ import Button from '../Button';
 
 const Header = () => {
   return (
-    <header>
+    <Wrapper>
       <SuperHeader>
         <Row>
           <ActionGroup>
@@ -31,19 +31,24 @@ const Header = () => {
       <MainHeader>
         <Logo />
       </MainHeader>
-    </header>
+      <SubscribeGroup>
+        <Button>Subscribe</Button>
+        <SubscribeLink href="#">Already a subscriber?</SubscribeLink>
+      </SubscribeGroup>
+    </Wrapper>
   );
 };
 
-const SuperHeader = styled.div`
-  padding: 16px 0;
-  background: var(--color-gray-900);
-  color: white;
-`;
-
-const Row = styled(MaxWidthWrapper)`
+const Wrapper = styled.header`
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+
+  @media ${QUERIES.laptopAndUp} {
+    max-width: min(100%,calc(1200px + 32px * 2));
+    margin-inline: auto;
+    flex-direction: row;
+    align-items: center;
+  }
 `;
 
 const ActionGroup = styled.div`
@@ -59,12 +64,50 @@ const ActionGroup = styled.div`
   }
 `;
 
+const SuperHeader = styled.div`
+  padding: 16px 0;
+  background: var(--color-gray-900);
+  color: white;
+
+  @media ${QUERIES.laptopAndUp} {
+    background: revert;
+    color: revert;
+
+    & ${ActionGroup}:last-of-type {
+      display: none;
+    }
+  }
+`;
+
+const Row = styled(MaxWidthWrapper)`
+  display: flex;
+  justify-content: space-between;
+`;
+
 const MainHeader = styled(MaxWidthWrapper)`
   display: flex;
   align-items: center;
   justify-content: center;
   margin-top: 32px;
   margin-bottom: 48px;
+`;
+
+const SubscribeGroup = styled(ActionGroup)`
+  display: none;
+  
+  @media ${QUERIES.laptopAndUp} {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-inline-end: 32px;
+    align-items: center;
+  }
+`;
+
+const SubscribeLink = styled.a`
+  font-style: italic;
+  font-weight: 400;
+  text-decoration: underline;
 `;
 
 export default Header;
